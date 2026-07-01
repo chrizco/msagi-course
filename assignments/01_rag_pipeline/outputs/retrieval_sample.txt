@@ -1,0 +1,82 @@
+Sample Retrieval Output
+================================================================================
+
+Query: What does the document say about BPC-157 and wound healing?
+
+================================================================================
+Result 1
+Source: PMID-25995620_Huang_2015_Body-protective-compound-157-enhances-alkali-burned-wound-healing.pdf
+Page: 12
+
+bFGF- or BPC-157-treated groups was better than that in 
+the model control group. These data also suggest that the 
+effect of BPC-157 on alkali-burn wound repair is, apparently, 
+comparable with that of bFGF. More interestingly, BPC-
+157 is highly stable and resistant to hydrolysis or enzyme 
+digestion, even in the gastric juice. Furthermore, it is easily 
+dissolved in water and needs no carrier for its application.13 
+These findings indicate that BPC-157 may become a thera-
+peutic agent for the treatment of chemical-induced burn 
+wound. Previous studies have demonstrated that BPC-157 
+promotes the healing of different tissues, including skin, 36 
+muscle,15,37–39 bone, 40 ligament, 41 and tendon 42 in various 
+animal models. However, the underlying mechanism has 
+not been fully elucidated.
+The theory of cell biology in wound healing emphasized 
+that endothelial cells, fibroblasts, and keratinocytes may 
+contribute to the proliferation stage in the wound healing
+
+================================================================================
+Result 2
+Source: PMID-25995620_Huang_2015_Body-protective-compound-157-enhances-alkali-burned-wound-healing.pdf
+Page: 6
+
+Drug Design, Development and Therapy 2015:9 submit your manuscript | www.dovepress.com
+Dovepress 
+Dovepress
+2491
+Body protective compound-157 in wound healing
+when compared to the model control group, on the 18th day 
+post wounding. Using Masson staining, we found that the 
+extent of collagen deposition was significantly higher in 
+BPC-157- and bFGF-treated groups. Moreover, the results 
+showed that both BPC-157 and bFGF could promote VEGF 
+expression in wounded skin tissues (Figure 3A–B).
+All of these data demonstrate that BPC-157 is effective in 
+the very low dose range and that it accelerates wound heal-
+ing, which resembles previous conclusions about BPC-157. 
+At the same time, these data also suggest that the effect of 
+BPC-157 on alkali-burn wound repair is, apparently, com -
+parable with that of bFGF.
+BPc-157 enhances cell proliferation 
+of endothelial cells
+The established view in cellular biology dictates that fibro-
+blasts, keratinocytes, and endothelial cells contribute to
+
+================================================================================
+Result 3
+Source: PMID-25995620_Huang_2015_Body-protective-compound-157-enhances-alkali-burned-wound-healing.pdf
+Page: 14
+
+Dovepress 
+Dovepress
+Dovepress
+2499
+Body protective compound-157 in wound healing
+37. Pevec D, Novinscak T, Brcic L, et al. Impact of pentadecapeptide 
+BPC 157 on muscle healing impaired by systemic corticosteroid appli-
+cation. Med Sci Monit. 2010;16:BR81–BR88.
+38. Novinscak T, Brcic L, Staresinic M, et al. Gastric pentadecapeptide 
+BPC 157 as an effective therapy for muscle crush injury in the rat. Surg 
+Today. 2008;38:716–725.
+39. Staresinic M, Petrovic I, Novinscak T, et al. Effective therapy of 
+transected quadriceps muscle in rat: Gastric pentadecapeptide BPC 157. 
+ J Orthop Res. 2006;24:1109–1117.
+40. Krivic A, Majerovic M, Jelic I, Seiwerth S, Sikiric P. Modulation 
+of early functional recovery of Achilles tendon to bone unit after 
+transection by BPC 157 and methylprednisolone. Inflamm Res. 2008; 
+57:205–210.
+41. Cerovecki T, Bojanic I, Brcic L, et al. Pentadecapeptide BPC 157 
+(PL 14736) improves ligament healing in the rat. J Orthop Res . 
+2010;28:1155–1161.
+

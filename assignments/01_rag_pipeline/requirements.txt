@@ -1,0 +1,12 @@
+ipykernel
+jupyterlab
+notebook
+python-dotenv
+pandas
+numpy
+pypdf
+tiktoken
+langchain
+langchain-community
+langchain-openai
+faiss-cpu
