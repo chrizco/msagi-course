@@ -1,0 +1,9 @@
+crewai
+crewai-tools
+langchain-community
+langchain-openai
+tavily-python
+python-dotenv
+ipykernel
+jupyter
+pypdf
