@@ -1,0 +1,27 @@
+services:
+  linkedin-api:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Europe/Berlin
+      - TZ=Europe/Berlin
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - linkedin-api
+
+volumes:
+  n8n_data:
+
+
+# Docker Compose lets one file manage both containers. 
+# It also creates a shared network, so n8n can later reach the API through the service name linkedin-api. 
+# The volume keeps your n8n workflows after the container stops.

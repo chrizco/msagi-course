@@ -1,0 +1,671 @@
+{
+  "name": "LinkedIn Content Automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b4b07994-1d63-4beb-847f-d10af1fceb1e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5bdcce1-43c9-4b5c-9c09-656cc5202dd8",
+              "name": "company_name",
+              "value": "FinEdge Mumbai",
+              "type": "string"
+            },
+            {
+              "id": "c3b2f448-9a04-40e1-9842-129d943b4bbe",
+              "name": "industry",
+              "value": "Fintech",
+              "type": "string"
+            },
+            {
+              "id": "732c3569-76e1-4e88-ab8f-9f37648ff0a5",
+              "name": "target_audience",
+              "value": "Finance leaders and fintech professionals",
+              "type": "string"
+            },
+            {
+              "id": "57fea5e2-d247-419c-a8ec-b6ed65ea0a3c",
+              "name": "topic",
+              "value": "AI engineering challenges in fintech and how to overcome them",
+              "type": "string"
+            },
+            {
+              "id": "762d536b-d985-424f-b186-e1627aa656d7",
+              "name": "tone",
+              "value": "Professional, clear, and lightly humorous",
+              "type": "string"
+            },
+            {
+              "id": "31f31a11-50b1-49d0-91b1-6b4a7902ffb4",
+              "name": "goal",
+              "value": "Build thought leadership and encourage discussions",
+              "type": "string"
+            },
+            {
+              "id": "10d3a6dd-1b6e-4ef3-90dc-c0c5e0e4762c",
+              "name": "minimum_confidence",
+              "value": 0.8,
+              "type": "number"
+            },
+            {
+              "id": "a801c3d6-3c10-4298-b132-7fe361ca66f1",
+              "name": "dry_run",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7013d49c-f459-4c64-9f41-a62542124a6f",
+      "name": "Brand Config"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8a9cfd9b-2964-4025-9981-db4734f9f067",
+              "name": "final_post",
+              "value": "={{ $json.draft + \"\\n\\n\" + $json.hashtags.join(\" \")}}",
+              "type": "string"
+            },
+            {
+              "id": "96fd0334-54fc-494c-9006-6936689708e9",
+              "name": "confidence",
+              "value": "={{ $json.confidence }}",
+              "type": "number"
+            },
+            {
+              "id": "3e54ea21-6c03-4404-8a4e-f88bcc2d57eb",
+              "name": "reason",
+              "value": "={{ $json.reason }}",
+              "type": "string"
+            },
+            {
+              "id": "3894d5ea-5f88-4683-8372-42b944774f8d",
+              "name": "dry_run",
+              "value": "={{ $('Brand Config').item.json.dry_run }}",
+              "type": "boolean"
+            },
+            {
+              "id": "2b7aa6b1-9cdf-48d8-a600-148f441c609e",
+              "name": "minimum_confidence",
+              "value": "={{ $('Brand Config').item.json.minimum_confidence }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "854b3f6e-db6c-4f7c-b65d-87cce83a0345",
+      "name": "Compose Final"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "04017a6e-9e41-4516-a4a7-ef1a5985e1e4",
+              "leftValue": "={{ $json.dry_run }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "00d94537-a57f-4313-8135-9fa4f4dd2ed0",
+              "leftValue": "={{ $json.confidence }}",
+              "rightValue": "={{ $json.minimum_confidence }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        832,
+        0
+      ],
+      "id": "e4a5868e-45c4-4374-b497-033d628845c6",
+      "name": "Approval Gate"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "fromEmail": "chris.copony@gmail.com",
+        "toEmail": "chris.copony@gmail.com",
+        "subject": "LinkedIn Draft awating Approval",
+        "message": "=Please review this LinkedIn draft:\n\n{{ $json.final_post }}\n\nConfidence: {{ $json.confidence }}\nReason: {{ $json.reason }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1040,
+        -96
+      ],
+      "id": "39bb73c0-16ad-401f-8629-28303fd3edc8",
+      "name": "Email Approval",
+      "webhookId": "33adf1a9-3fe6-4887-8061-ad02b085aced",
+      "credentials": {
+        "smtp": {
+          "id": "xojjHOdiX2i5VfP4",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://linkedin-api:8000/linkedin",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "company_name",
+              "value": "={{ $json.company_name }}"
+            },
+            {
+              "name": "industry",
+              "value": "={{ $json.industry }}"
+            },
+            {
+              "name": "target_audience",
+              "value": "={{ $json.target_audience }}"
+            },
+            {
+              "name": "topic",
+              "value": "={{ $json.topic }}"
+            },
+            {
+              "name": "tone",
+              "value": "={{ $json.tone }}"
+            },
+            {
+              "name": "goal",
+              "value": "={{ $json.goal }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "fb5f435d-ad5f-4db4-8c55-95b2b9d4722d",
+      "name": "AutoGen Microservice"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "240b7c26-50ba-403d-91ac-402f512b0434",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        -96
+      ],
+      "id": "0e5b8f0d-96a5-468c-8a1f-f2ddd6b5aca6",
+      "name": "Approval Result"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "H3to0AZ2rnmJHGoN",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Content Log",
+          "cachedResultUrl": "/projects/4xJ5aeu9BtdcSMg6/datatables/H3to0AZ2rnmJHGoN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "approved": "={{ $json.data.approved }}",
+            "dry_run": "={{ $('Compose Final').item.json.dry_run }}",
+            "timestamp": "={{ $now.toISO() }}",
+            "topic": "={{ $('Brand Config').item.json.topic }}",
+            "final_post": "={{ $('Compose Final').item.json.final_post }}",
+            "confidence": "={{ $('Compose Final').item.json.confidence }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "final_post",
+              "displayName": "final_post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dry_run",
+              "displayName": "dry_run",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false,
+          "column": [
+            {
+              "name": "timestamp",
+              "type": "date"
+            },
+            {
+              "name": "topic"
+            },
+            {
+              "name": "final_post"
+            },
+            {
+              "name": "confidence",
+              "type": "number"
+            },
+            {
+              "name": "approved",
+              "type": "boolean"
+            },
+            {
+              "name": "dry_run",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        -192
+      ],
+      "id": "56cb6e63-3853-413d-bfd7-79adbf154577",
+      "name": "Log Approved"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "H3to0AZ2rnmJHGoN",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Content Log",
+          "cachedResultUrl": "/projects/4xJ5aeu9BtdcSMg6/datatables/H3to0AZ2rnmJHGoN"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "approved": "={{ $json.data.approved }}",
+            "dry_run": "={{ $('Compose Final').item.json.dry_run }}",
+            "timestamp": "={{ $now.toISO() }}",
+            "topic": "={{ $('Brand Config').item.json.topic }}",
+            "final_post": "={{ $('Compose Final').item.json.final_post }}",
+            "confidence": "={{ $('Compose Final').item.json.confidence }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "topic",
+              "displayName": "topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "final_post",
+              "displayName": "final_post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "confidence",
+              "displayName": "confidence",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "dry_run",
+              "displayName": "dry_run",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        0
+      ],
+      "id": "bc1df219-fd0a-4df4-8d47-ea17c4ff6e90",
+      "name": "Log Rejected"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb2f908b-a18d-4f38-a103-c9891f4ecd53",
+              "name": "status",
+              "value": "Publishing disabled",
+              "type": "string"
+            },
+            {
+              "id": "3d6f9d4d-acc5-4e9f-95af-6c3041ccb48c",
+              "name": "reason",
+              "value": "LinkedIn integration has not been activated yet",
+              "type": "string"
+            },
+            {
+              "id": "b7daea5b-7bd4-41c7-8255-fa823972ba98",
+              "name": "final_post",
+              "value": "={{ $json.final_post }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        96
+      ],
+      "id": "f7fd0317-5914-4013-9c86-2830fa573568",
+      "name": "LinkedIn Publishing Disabled"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                2
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        176
+      ],
+      "id": "b54226c7-41ef-4b49-9a63-d49db02340d8",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Brand Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Config": {
+      "main": [
+        [
+          {
+            "node": "AutoGen Microservice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose Final": {
+      "main": [
+        [
+          {
+            "node": "Approval Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval Gate": {
+      "main": [
+        [
+          {
+            "node": "Email Approval",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "LinkedIn Publishing Disabled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AutoGen Microservice": {
+      "main": [
+        [
+          {
+            "node": "Compose Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Approval": {
+      "main": [
+        [
+          {
+            "node": "Approval Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval Result": {
+      "main": [
+        [
+          {
+            "node": "Log Approved",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Brand Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "005f3170-9563-4aab-8d4f-143d74398977",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "984242b610c14ae47e41b4ed45fba8b16cdaecc774c5117a8a44eec37ca14652"
+  },
+  "nodeGroups": [],
+  "id": "BGA8pfABYmDgWXtn",
+  "tags": []
+}
